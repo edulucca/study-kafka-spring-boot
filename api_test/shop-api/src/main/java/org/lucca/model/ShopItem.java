@@ -1,9 +1,11 @@
 package org.lucca.model;
 
+
+
 import jakarta.persistence.*;
 import lombok.*;
 import org.lucca.dto.ShopItemDTO;
-import org.springframework.data.annotation.Id;
+
 
 @Getter
 @Setter
@@ -21,11 +23,11 @@ public class ShopItem {
 
     private int amount;
 
-    private float price;
+    private Float price;
 
     @ManyToOne
     @JoinColumn(name = "shop_id")
-    private Long shopId;
+    private Shop shop;
 
     public static ShopItem fromShopItemDTO(ShopItemDTO shopItemDTO){
         return ShopItem.builder()

@@ -2,17 +2,19 @@ package org.lucca.model;
 
 
 import jakarta.persistence.*;
-import jdk.jfr.Enabled;
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.data.annotation.Id;
+import lombok.*;
+import org.lucca.dto.ShopDTO;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
-@Enabled
+@Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Shop {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +28,18 @@ public class Shop {
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "shop")
     private List<ShopItem> items;
+
+    public static Shop fromShopDTO(ShopDTO shopDTO){
+        return Shop.builder()
+                .identifier(shopDTO.getIdentifier())
+                .status(shopDTO.getStatus())
+                .dateShop(shopDTO.getDateShop())
+                .items(shopDTO.getItems()
+                        .stream()
+                        .map(ShopItem::fromShopItemDTO)
+                        .collect(Collectors.toList()))
+                .build();
+    }
 
 
 }
