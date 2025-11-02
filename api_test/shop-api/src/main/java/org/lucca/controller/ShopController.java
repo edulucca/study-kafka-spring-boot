@@ -2,6 +2,7 @@ package org.lucca.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.lucca.dto.ShopDTO;
+import org.lucca.events.KafkaClient;
 import org.lucca.model.Shop;
 import org.lucca.model.ShopItem;
 import org.lucca.repository.ShopRepository;
@@ -17,6 +18,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ShopController {
     private final ShopRepository shopRepository;
+
+    private final KafkaClient kafkaClient;
 
     @GetMapping
     public List<ShopDTO> getShop() {
@@ -38,6 +41,10 @@ public class ShopController {
             shopItem.setShop(shop);
         }
 
-        return ShopDTO.fromShop(shopRepository.save(shop));
+        shopDTO = ShopDTO.fromShop(shopRepository.save(shop));
+
+        kafkaClient.sendMessage(shopDTO);
+
+        return shopDTO;
     }
 }

@@ -1,0 +1,8 @@
+#Subir o Zookeeper
+sh bin/zookeeper-server-start.sh config/zookeeper.properties
+
+#Subir o Kafka Broker
+sh bin/kafka-server-start.sh config/server.properties
+
+#Subir o console-consumer a partir do WSL
+sh bin/kafka-console-consumer.sh --topic SHOP_TOPIC --bootstrap-server 172.17.183.49:9092 --from-beginning
