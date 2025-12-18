@@ -23,4 +23,33 @@ Content-Type: application/json
   ]
 }
 
+
+### Realizar Compra Valida
+POST http://localhost:8080/shop
+Content-Type: application/json
+
+{
+  "items": [
+    {
+      "productIdentifier": "123456789",
+      "amount": 1,
+      "price": 1000
+    }
+  ]
+}
+
+### Realizar Compra Invalida
+POST http://localhost:8080/shop
+Content-Type: application/json
+
+{
+  "items": [
+    {
+      "productIdentifier": "123",
+      "amount": 1,
+      "price": 1000
+    }
+  ]
+}
+
 > src/main/resources/responses/shop-create.json
