@@ -1,8 +1,6 @@
 package org.lucca.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.lucca.model.Shop;
 
 import java.time.LocalDate;
@@ -13,6 +11,8 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ShopDTO {
     private String identifier;
     private String status;

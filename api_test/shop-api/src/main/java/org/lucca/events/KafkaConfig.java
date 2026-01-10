@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.*;
+import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 
@@ -59,12 +60,18 @@ public class KafkaConfig {
     public ConsumerFactory<String, ShopDTO> consumerFactory(){
         JsonDeserializer<ShopDTO> deserializer = new JsonDeserializer<>(ShopDTO.class);
 
+        deserializer.addTrustedPackages("*");
+
+        deserializer.setUseTypeHeaders(false);
+
+        ErrorHandlingDeserializer<ShopDTO> errorDeserializer = new ErrorHandlingDeserializer<>(deserializer);
+
         Map<String, Object> props = new HashMap<>();
 
         //Define endereço do kakfa
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
 
-        return new DefaultKafkaConsumerFactory<>(props, new StringDeserializer(), deserializer);
+        return new DefaultKafkaConsumerFactory<>(props, new StringDeserializer(), errorDeserializer);
     }
 
     @Bean

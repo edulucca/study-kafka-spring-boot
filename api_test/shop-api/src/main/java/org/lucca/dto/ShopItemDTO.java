@@ -1,13 +1,13 @@
 package org.lucca.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.lucca.model.ShopItem;
 
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ShopItemDTO {
     private String productIdentifier;
     private Integer amount;
